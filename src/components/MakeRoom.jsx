@@ -12,15 +12,6 @@ const MakeRoom = () => {
     const [joinRoomStatus, setJoinRoomStatus] = useState(false)
     const navigate = useNavigate()
 
-    const joinRoom = async() =>{
-        setJoinRoomStatus(true)
-        try {
-        
-        } catch (error) {
-            
-        }
-    }
-
     useEffect(() => {
         const handleCreateRoomTrue = (data) =>{
             toast({
@@ -34,22 +25,48 @@ const MakeRoom = () => {
     
         const handleCreateRoomError = (data) =>{
             toast({
-                title : `${data.roomId}`,
+                title : `${data}`,
                 status : "error",
                 duration : 1000
             })
         }
 
+        const handleJoinRoomTrue = (data) =>{
+            toast({
+                title : `room created ${data.roomId}`,
+                description : "Room created",
+                status : "success",
+                duration : 1000
+            })
+            navigate(`/editor/${data.roomId}/${username}`);
+        }
+        
+        const handleJoinRoomError = (data) =>{
+            toast({
+                title : `${data}`,
+                status : "error",
+                duration : 1000
+            })
+        }
+
+        socket.on('joinError', handleJoinRoomError);
+        socket.on('joinSuccess', handleJoinRoomTrue);
         socket.on('createRoomTrue', handleCreateRoomTrue);
         socket.on('createRoomError', handleCreateRoomError);
         
         return () => {
+            socket.off('joinError', handleJoinRoomError);
+            socket.off('joinSuccess', handleJoinRoomTrue);
             socket.off('createRoomTrue', handleCreateRoomTrue);
             socket.off('createRoomError', handleCreateRoomError);
         };
     }, [toast, username, navigate])
     
-    
+    const joinRoom = () =>{
+        setJoinRoomStatus(true)
+        socket.emit('joinRoom', {roomId : roomId, username : username})
+    }
+
     const createRoom = () =>{
         if(!username || username.length > 10 || username.length < 2){
             toast({
