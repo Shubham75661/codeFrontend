@@ -1,17 +1,13 @@
-import { Box } from '@chakra-ui/react';
-import Editor from './components/Editor';
+import { Route, Routes } from "react-router-dom";
+import Editor from "./components/Editor";
+import MakeRoom from "./components/MakeRoom";
 
 function App() {
   return (
-    <Box
-      minH="100vh" 
-      bg="#0f0a19"
-      color="gray.500"
-      px={6}
-      py={8}
-    >
-      <Editor/>
-    </Box>
+    <Routes>
+      <Route path="/" element={<MakeRoom />} />
+      <Route path="/editor/:roomID/:username" element={<Editor />} />
+    </Routes>
   );
 }
 

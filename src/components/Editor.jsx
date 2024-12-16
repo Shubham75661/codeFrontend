@@ -1,12 +1,11 @@
 import Editor from '@monaco-editor/react';
-import { useEffect, useState } from 'react';
-import { executeCode, getLang } from '../api';
+import { useState } from 'react';
 import { Box, Button, HStack, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { boilerPlateCode } from '../Assets/boilerPlate';
 import Output from './Output';
 import { lang } from '../Assets/lang';
-function App() {
 
+function CodeEditor() {
     const ShowLang = Object.entries(lang)
     const [selectedLang, setselectedLang] = useState('javascript')
     const [code, setCode] = useState(boilerPlateCode[selectedLang]);
@@ -60,4 +59,4 @@ function App() {
     );
 }
 
-export default App;
+export default CodeEditor;
