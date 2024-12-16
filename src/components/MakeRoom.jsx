@@ -47,6 +47,7 @@ const MakeRoom = () => {
                 status : "error",
                 duration : 1000
             })
+            setJoinRoomStatus(false)
         }
 
         socket.on('joinError', handleJoinRoomError);
@@ -60,7 +61,7 @@ const MakeRoom = () => {
             socket.off('createRoomTrue', handleCreateRoomTrue);
             socket.off('createRoomError', handleCreateRoomError);
         };
-    }, [toast, username, navigate])
+    }, [toast, username, navigate, setJoinRoomStatus])
     
     const joinRoom = () =>{
         setJoinRoomStatus(true)
